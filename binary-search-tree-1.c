@@ -196,7 +196,51 @@ int insert(Node* head, int key)
 
 int deleteLeafNode(Node* head, int key)
 {
+	if (head == NULL) {	
+		printf("the momory is not allocated\n");
+		return 1;
+	}
 
+	if (head->left == NULL) {	
+		printf("the tree is empty\n");
+		return 1;
+	}
+
+	Node* node = head->left;	
+	Node* parent = head;		
+
+	while(node != NULL){	
+		if(node->key == key){	
+			if(node->left == NULL && node->right == NULL) {	
+				if(parent == head){
+					head->left = NULL;	
+					free(node);
+					return 1;
+				}		
+				if(parent->left == node)	
+					parent->left = NULL;
+				else if(parent->right == node)	
+					parent->right = NULL;	
+
+				free(node);		
+			}
+			else 	
+				printf("That node is not a leaf node\n");
+
+			return 1;
+		}
+
+		parent = node;		
+
+		if(node->key < key)
+			node = node->right;
+		else				
+			node = node->left;	
+	}
+
+	printf("the node with that key does not exist in the tree\n");	
+
+	return 1;
 }
 
 Node* searchRecursive(Node* ptr, int key)
